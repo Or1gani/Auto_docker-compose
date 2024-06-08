@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
+using System.Threading;
 
 namespace Auto_docker_compose
 {
@@ -20,13 +21,34 @@ namespace Auto_docker_compose
         public string dc_path;
         public string dc_folder_path;
         public DirectoryInfo directoryInfo;
+        private bool isMouseOverPanel;
 
         public Automatizer()
         {
             InitializeComponent();
             comboBox1.SelectedIndex = 0;
+            comboBox4.SelectedIndex = 0;
+            
             //textBox3.Text = "node index.js";
             timer1.Start();
+            timer2.Start();
+            toolTip1.AutoPopDelay = 1000000000; // Время показа подсказки
+            toolTip1.InitialDelay = 100; // Задержка перед первым показом
+            toolTip1.ReshowDelay = 200; // Задержка перед повторным показом
+            toolTip1.SetToolTip(textBox1, "Название сегмента");
+            toolTip1.SetToolTip(textBox2, "Параметр image: Вводится без кавычек");
+            toolTip1.SetToolTip(textBox3, "Параметр command: Заполняется автоматически, можно дополнить доп. командой");
+            toolTip1.SetToolTip(textBox4, "Полный путь до папки в которой нужно создать docker-compose файл или выбрать уже существующий.");
+            toolTip1.SetToolTip(textBox5, "Параметр command: Заполняется автоматически из конфигурационного файла");
+            toolTip1.SetToolTip(textBox6, "Данные из .yaml файла");
+            toolTip1.SetToolTip(comboBox1,"Параметр restart: опциональный. По умолчанию - none");
+            toolTip1.SetToolTip(comboBox2,"Выбор параметра build");
+            toolTip1.SetToolTip(comboBox3,"Выбор конфигурационного файла");
+            toolTip1.SetToolTip(comboBox3,"Выбор доп. найстроки команды");
+            toolTip1.SetToolTip(label11,  "Выбранное устройство");
+            toolTip1.SetToolTip(button1, "Добавить запись в файл");
+            toolTip1.SetToolTip(button2, "Выбрать/Обновить/Создать файл по выбранному пути");
+            toolTip1.SetToolTip(button3, "Очистить поля");
         }
 
 
@@ -59,12 +81,15 @@ namespace Auto_docker_compose
                         {
                             File.AppendAllText(dc_path, lineToAdd + Environment.NewLine);
                             MessageBox.Show("Файл успешно создан");
+                            textBox6.Text = File.ReadAllText(dc_path);
                             get_buildlist(comboBox2, dc_folder_path);
                             comboBox2.SelectedIndex = 0;
                         }
                         else if (File.Exists(dc_path))
                         {
                             get_buildlist(comboBox2, dc_folder_path);
+                            textBox6.Text = File.ReadAllText(dc_path);
+
                             comboBox2.SelectedIndex = 0;
                         }
                         else
@@ -223,6 +248,7 @@ namespace Auto_docker_compose
                     }
 
                     MessageBox.Show("Файл успешно дополнен");
+                    textBox6.Text = File.ReadAllText(dc_path);
                 }
 
             }
@@ -232,10 +258,6 @@ namespace Auto_docker_compose
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            get_volume(directoryInfo);
-        }
 
         public int get_port(string file)
         {
@@ -281,11 +303,17 @@ namespace Auto_docker_compose
         {
             if (textBox4.Text == "")
             {
+                button1.Enabled = false;
                 button2.Enabled = false;
+                button3.Enabled = false;
+                panel2.Enabled = false;
             }
             else
             {
+                panel2.Enabled = true;
+                button1.Enabled = true;
                 button2.Enabled= true;
+                button3.Enabled = true;
             }
         }
 
@@ -300,6 +328,37 @@ namespace Auto_docker_compose
                 }
                 
             }
+        }
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if (textBox4.Text == "")
+            {
+                Point cursorPosition = Cursor.Position;
+                Point panelPosition = panel2.PointToScreen(Point.Empty);
+                Rectangle panelRectangle = new Rectangle(panelPosition, panel2.Size);
+
+                if (panelRectangle.Contains(cursorPosition))
+                {
+                    if (!isMouseOverPanel)
+                    {
+                        isMouseOverPanel = true;
+                        // Подсветка текстового поля
+                        textBox4.BackColor = Color.Red;
+                        textBox4.BorderStyle = BorderStyle.FixedSingle;
+                    }
+                }
+                else
+                {
+                    if (isMouseOverPanel)
+                    {
+                        isMouseOverPanel = false;
+                        // Возврат текстового поля к исходному состоянию
+                        textBox4.BackColor = SystemColors.Window;
+                        textBox4.BorderStyle = BorderStyle.Fixed3D;
+                    }
+                }
+            }
+            
         }
     }
 }
