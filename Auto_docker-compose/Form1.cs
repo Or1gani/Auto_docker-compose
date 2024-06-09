@@ -168,7 +168,7 @@ namespace Auto_docker_compose
             catch (Exception)
             {
 
-                MessageBox.Show("Ошибка в пути", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Отсутвует путь до необходимых json файлов конфигурации. По пути, в папке '{twoDirectoriesUp}' отсутствуют нужные директории", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); ; ; ; ;
                 return;
             }
             
