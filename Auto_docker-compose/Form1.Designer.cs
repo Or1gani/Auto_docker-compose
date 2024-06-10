@@ -37,7 +37,6 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox6 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -68,6 +67,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -80,15 +80,13 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.panel1.Controls.Add(this.button5);
             this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.textBox4);
             this.panel1.Location = new System.Drawing.Point(-1, 319);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1399, 83);
+            this.panel1.Size = new System.Drawing.Size(1017, 83);
             this.panel1.TabIndex = 0;
             // 
             // button3
@@ -96,9 +94,9 @@
             this.button3.BackColor = System.Drawing.Color.LightGray;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Onyx", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button3.Location = new System.Drawing.Point(130, 21);
+            this.button3.Location = new System.Drawing.Point(260, 18);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(111, 36);
+            this.button3.Size = new System.Drawing.Size(111, 42);
             this.button3.TabIndex = 13;
             this.button3.Text = "Очистить";
             this.button3.UseVisualStyleBackColor = false;
@@ -109,9 +107,9 @@
             this.button2.BackColor = System.Drawing.Color.LightGray;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Onyx", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(247, 21);
+            this.button2.Location = new System.Drawing.Point(426, 16);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(183, 36);
+            this.button2.Size = new System.Drawing.Size(173, 36);
             this.button2.TabIndex = 12;
             this.button2.Text = "Создать/Обновить файл";
             this.button2.UseVisualStyleBackColor = false;
@@ -122,7 +120,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Onyx", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(436, 15);
+            this.label8.Location = new System.Drawing.Point(129, 12);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(222, 17);
             this.label8.TabIndex = 11;
@@ -133,9 +131,9 @@
             this.button1.BackColor = System.Drawing.Color.LightGray;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Onyx", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(13, 21);
+            this.button1.Location = new System.Drawing.Point(143, 18);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 36);
+            this.button1.Size = new System.Drawing.Size(111, 42);
             this.button1.TabIndex = 0;
             this.button1.Text = "Добавить";
             this.button1.UseVisualStyleBackColor = false;
@@ -146,7 +144,7 @@
             this.textBox4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.textBox4.BackColor = System.Drawing.Color.White;
             this.textBox4.ForeColor = System.Drawing.Color.Black;
-            this.textBox4.Location = new System.Drawing.Point(436, 35);
+            this.textBox4.Location = new System.Drawing.Point(129, 32);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(291, 22);
@@ -166,7 +164,6 @@
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.textBox6);
             this.panel2.Controls.Add(this.label13);
             this.panel2.Controls.Add(this.textBox5);
             this.panel2.Controls.Add(this.label14);
@@ -186,17 +183,8 @@
             this.panel2.Controls.Add(this.textBox1);
             this.panel2.Location = new System.Drawing.Point(12, 59);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1373, 254);
+            this.panel2.Size = new System.Drawing.Size(991, 254);
             this.panel2.TabIndex = 2;
-            // 
-            // textBox6
-            // 
-            this.textBox6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.textBox6.Location = new System.Drawing.Point(860, 3);
-            this.textBox6.Multiline = true;
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(510, 247);
-            this.textBox6.TabIndex = 19;
             // 
             // label13
             // 
@@ -326,7 +314,7 @@
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.comboBox1);
-            this.panel3.Location = new System.Drawing.Point(563, 3);
+            this.panel3.Location = new System.Drawing.Point(697, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(291, 231);
             this.panel3.TabIndex = 6;
@@ -463,16 +451,19 @@
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
             this.panel4.Controls.Add(this.pictureBox1);
             this.panel4.Controls.Add(this.label11);
+            this.panel4.Controls.Add(this.button2);
+            this.panel4.Controls.Add(this.label8);
+            this.panel4.Controls.Add(this.textBox4);
             this.panel4.Location = new System.Drawing.Point(-1, -3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1399, 59);
+            this.panel4.Size = new System.Drawing.Size(1017, 59);
             this.panel4.TabIndex = 14;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = global::Auto_docker_compose.Properties.Resources.BMEOISo5D2M;
-            this.pictureBox1.Location = new System.Drawing.Point(1342, 6);
+            this.pictureBox1.Location = new System.Drawing.Point(960, 6);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(57, 53);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -492,13 +483,26 @@
             this.button4.BackColor = System.Drawing.Color.LightGray;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("Onyx", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button4.Location = new System.Drawing.Point(733, 15);
+            this.button4.Location = new System.Drawing.Point(3, 18);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(134, 42);
             this.button4.TabIndex = 0;
-            this.button4.Text = "Полная авто-запись";
+            this.button4.Text = "Автоматическая запись";
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.LightGray;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Onyx", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button5.Location = new System.Drawing.Point(873, 15);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(134, 42);
+            this.button5.TabIndex = 14;
+            this.button5.Text = "Открыть файл";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Automatizer
             // 
@@ -506,7 +510,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.ClientSize = new System.Drawing.Size(1397, 403);
+            this.ClientSize = new System.Drawing.Size(1015, 403);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -515,7 +519,6 @@
             this.Name = "Automatizer";
             this.Text = "Automatizer";
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -564,10 +567,10 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox comboBox4;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
 

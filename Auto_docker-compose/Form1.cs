@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
 using System.Threading;
 using System.Security.Policy;
-
+using System.Diagnostics;
 
 namespace Auto_docker_compose
 {
@@ -42,7 +42,7 @@ namespace Auto_docker_compose
             toolTip1.SetToolTip(textBox3, "Параметр command: Заполняется автоматически, можно дополнить доп. командой");
             toolTip1.SetToolTip(textBox4, "Полный путь до папки в которой нужно создать docker-compose файл или выбрать уже существующий.");
             toolTip1.SetToolTip(textBox5, "Параметр command: Заполняется автоматически из конфигурационного файла");
-            toolTip1.SetToolTip(textBox6, "Данные из .yaml файла");
+            //toolTip1.SetToolTip(textBox6, "Данные из .yaml файла");
             toolTip1.SetToolTip(comboBox1,"Параметр restart: опциональный. По умолчанию - none");
             toolTip1.SetToolTip(comboBox2,"Выбор параметра build");
             toolTip1.SetToolTip(comboBox3,"Выбор конфигурационного файла");
@@ -83,32 +83,35 @@ namespace Auto_docker_compose
                         {
                             File.AppendAllText(dc_path, lineToAdd + Environment.NewLine);
                             MessageBox.Show("Файл успешно создан");
-                            textBox6.Text = File.ReadAllText(dc_path);
+                            //textBox6.Text = File.ReadAllText(dc_path);
                             get_buildlist(comboBox2, dc_folder_path);
                             comboBox2.SelectedIndex = 0;
                         }
                         else if (File.Exists(dc_path))
                         {
                             get_buildlist(comboBox2, dc_folder_path);
-                            textBox6.Text = File.ReadAllText(dc_path);
+                            //textBox6.Text = File.ReadAllText(dc_path);
 
                             comboBox2.SelectedIndex = 0;
                         }
                         else
                         {
                             MessageBox.Show("Путь не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            label11.Text = string.Empty;
                         }
 
                     }
                     else
                     {
                         MessageBox.Show("Путь не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        label11.Text = string.Empty;
                     }
                 }
                 catch (Exception ex)
                 {
 
                    MessageBox.Show("Произошла ошибка: " + ex.Message);
+                   label11.Text = string.Empty;
                 }
                 
             }
@@ -250,7 +253,7 @@ namespace Auto_docker_compose
                     }
 
                     MessageBox.Show("Файл успешно дополнен");
-                    textBox6.Text = File.ReadAllText(dc_path);
+                    //textBox6.Text = File.ReadAllText(dc_path);
                 }
 
             }
@@ -320,6 +323,8 @@ namespace Auto_docker_compose
                 button1.Enabled = false;
                 button2.Enabled = false;
                 button3.Enabled = false;
+                button4.Enabled = false;
+                button5.Enabled = false;
                 panel2.Enabled = false;
             }
             else
@@ -328,6 +333,8 @@ namespace Auto_docker_compose
                 button1.Enabled = true;
                 button2.Enabled= true;
                 button3.Enabled = true;
+                button4.Enabled= true;
+                button5.Enabled = true;
             }
         }
 
@@ -403,15 +410,15 @@ namespace Auto_docker_compose
                 {
                     strings = get_values(dc_folder_path);
                     ports = get_port(comboBox3.Items[i].ToString().Replace(" ", "")).ToString();
-
+                    name = comboBox3.Items[i].ToString().ToLower().Replace("configuration", "").Replace(".json", "");
+                    string item = $@"{name}";
                     for (int j = 0; j < comboBox2.Items.Count; j++)
                     {
                         pattern1 = $@".*{comboBox2.Items[j].ToString().ToLower()}.*";
                         
-                        name = comboBox3.Items[i].ToString().ToLower().Replace("configuration", "").Replace(".json", "");
-                        string item = $@"{name}";
+                        
 
-                        Console.WriteLine(item + " - " + pattern1.Substring(0, pattern1.Length - 1));
+                        //Console.WriteLine(item + " - " + pattern1.Substring(0, pattern1.Length - 1));
                         if (Regex.Match(item, pattern1).Success && !Regex.Match(item, @".*rt.*").Success)
                         {
                             //Console.WriteLine(item + " - " + pattern1);
@@ -461,22 +468,70 @@ namespace Auto_docker_compose
                         }
 
                     }
-                    Console.WriteLine(buildtoappend);
+                    //Console.WriteLine(buildtoappend);
                     if (flag)
                     {
                        
                         if (ports != "0000")
                         {
                             File.AppendAllText(dc_path, $"\n        {name}:");
-                            File.AppendAllText(dc_path, $"\n            image: '{textBox2.Text}'");
+                            if (Regex.Match(name, @".*disp.*").Success || Regex.Match(name, @".*gal.*").Success || Regex.Match(name, @".*map.*").Success)
+                            {
+                                File.AppendAllText(dc_path, $"\n            image: '{name.Replace($"{label11.Text.Substring(2)}", "")}:v1.1.0'");
+                            }
+                            else if (Regex.Match(name, @".*realtime.*").Success || Regex.Match(name, @".*arch.*").Success)
+                            {
+                                File.AppendAllText(dc_path, $"\n            image: '{name.Replace($"{label11.Text.Substring(2)}", "")}:v1.0.5'");
+                            }
+                            else if (Regex.Match(name, @"gs").Success)
+                            {
+                                File.AppendAllText(dc_path, $"\n            image: '{name.Replace($"{label11.Text.Substring(2)}", "")}:v1.0.8'");
+                            }
+                            else if (Regex.Match(name, @"autorization").Success)
+                            {
+                                File.AppendAllText(dc_path, $"\n            image: '{name.Replace($"{label11.Text.Substring(2)}", "")}:v1.0.3'");
+                            }
+                            else if (Regex.Match(name, @"segment").Success)
+                            {
+                                File.AppendAllText(dc_path, $"\n            image: '{name.Replace($"{label11.Text.Substring(2)}", "")}:v1.0.7'");
+                            }
                             File.AppendAllText(dc_path, buildtoappend);
-
-                            File.AppendAllText(dc_path, $"\n            command: {textBox3.Text}");
+                            if (Regex.Match(item, @".*segment.*").Success)
+                            {
+                                //Console.WriteLine(Regex.Match(item, @".*segment.*").Success);
+                                File.AppendAllText(dc_path, $"\n            command: node appSegments.js {comboBox3.Items[i]}");
+                            }
+                            else if (Regex.Match(item, @".*autorization.*").Success)
+                            {
+                                Console.WriteLine(Regex.Match(item, @".*autorization.*").Success);
+                                File.AppendAllText(dc_path, $"\n            command: node authServer.js");
+                            }
+                            else if (Regex.Match(item, @".*disp.*").Success && !Regex.Match(item, @".*gs.*").Success)
+                            {
+                                //Console.WriteLine(Regex.Match(item, @".*disp.*").Success);
+                                File.AppendAllText(dc_path, $"\n            command: node app.js {comboBox3.Items[i]}");
+                            }
+                            else if (Regex.Match(item, @".*realtime.*").Success)
+                            {
+                                //Console.WriteLine(Regex.Match(item, @".*realtime.*").Success);
+                                File.AppendAllText(dc_path, $"\n            command: node server.js {comboBox3.Items[i]}");
+                            }
+                            else if (Regex.Match(item, @".*gs.*").Success)
+                            {
+                                
+                                //Console.WriteLine(Regex.Match(item, @".*gs.*").Success);
+                                File.AppendAllText(dc_path, $"\n            command: node appGS.js {comboBox3.Items[i]}");
+                            }
+                            else
+                            {
+                                File.AppendAllText(dc_path, $"\n            command: node app.js {comboBox3.Items[i]}");
+                            }
+                            
                             File.AppendAllText(dc_path, $"\n            ports:\n             - {ports}:{ports}");
                             File.AppendAllText(dc_path, "\n            volumes:            ");
-                            foreach (var item in strings)
+                            foreach (var item1 in strings)
                             {
-                                File.AppendAllText(dc_path, $"\n             - /home/sedatec/DockerConfig/ПС{directoryInfo.Name.Substring(2)}:{item}/Configuration");
+                                File.AppendAllText(dc_path, $"\n             - /home/sedatec/DockerConfig/ПС{directoryInfo.Name.Substring(2)}:{item1}/Configuration");
                             }
                         }
                     }
@@ -492,8 +547,22 @@ namespace Auto_docker_compose
                 }
 
             }
-            textBox6.Text = File.ReadAllText(dc_path);
+            //textBox6.Text = File.ReadAllText(dc_path);
             MessageBox.Show("Файл успешно дополнен");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(dc_path))
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(dc_path);
+                Process.Start(dc_path);
+            }
+            else
+            {
+                MessageBox.Show($"Файла по пути: {dc_path} не существует");
+            }
+
         }
     }
 }
