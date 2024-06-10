@@ -37,6 +37,7 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textBox6 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -64,9 +65,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.textBox6 = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.button4 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -82,6 +83,7 @@
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.textBox4);
             this.panel1.Location = new System.Drawing.Point(-1, 319);
@@ -107,9 +109,9 @@
             this.button2.BackColor = System.Drawing.Color.LightGray;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Onyx", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(736, 18);
+            this.button2.Location = new System.Drawing.Point(247, 21);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(127, 42);
+            this.button2.Size = new System.Drawing.Size(183, 36);
             this.button2.TabIndex = 12;
             this.button2.Text = "Создать/Обновить файл";
             this.button2.UseVisualStyleBackColor = false;
@@ -120,7 +122,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Onyx", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(512, 18);
+            this.label8.Location = new System.Drawing.Point(436, 15);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(222, 17);
             this.label8.TabIndex = 11;
@@ -144,10 +146,10 @@
             this.textBox4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.textBox4.BackColor = System.Drawing.Color.White;
             this.textBox4.ForeColor = System.Drawing.Color.Black;
-            this.textBox4.Location = new System.Drawing.Point(512, 38);
+            this.textBox4.Location = new System.Drawing.Point(436, 35);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(219, 22);
+            this.textBox4.Size = new System.Drawing.Size(291, 22);
             this.textBox4.TabIndex = 10;
             // 
             // textBox1
@@ -186,6 +188,15 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1373, 254);
             this.panel2.TabIndex = 2;
+            // 
+            // textBox6
+            // 
+            this.textBox6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.textBox6.Location = new System.Drawing.Point(860, 3);
+            this.textBox6.Multiline = true;
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(510, 247);
+            this.textBox6.TabIndex = 19;
             // 
             // label13
             // 
@@ -472,18 +483,22 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // textBox6
-            // 
-            this.textBox6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.textBox6.Location = new System.Drawing.Point(860, 3);
-            this.textBox6.Multiline = true;
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(510, 247);
-            this.textBox6.TabIndex = 19;
-            // 
             // timer2
             // 
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.LightGray;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Onyx", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button4.Location = new System.Drawing.Point(733, 15);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(134, 42);
+            this.button4.TabIndex = 0;
+            this.button4.Text = "Полная авто-запись";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // Automatizer
             // 
@@ -552,6 +567,7 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Button button4;
     }
 }
 

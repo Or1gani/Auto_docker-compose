@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
 using System.Threading;
+using System.Security.Policy;
+
 
 namespace Auto_docker_compose
 {
@@ -201,7 +203,7 @@ namespace Auto_docker_compose
                 Match match = Regex.Match(line, pattern);
                 if (match.Success)
                 {
-                    Console.WriteLine(match.Groups[1].Value.Replace(" ", ""));
+                    //Console.WriteLine(match.Groups[1].Value.Replace(" ", ""));
                     
                     list.Add(match.Groups[1].Value.Replace(" ", ""));
                 }
@@ -259,23 +261,35 @@ namespace Auto_docker_compose
         }
 
 
-        public int get_port(string file)
+        public string get_port(string file)
         {
             try
             {
+                string port = "0000"; 
                 string twoDirectoriesUp = directoryInfo.Parent?.Parent.FullName; //+ $"ПС{directoryInfo.Name.Substring(2)}";
                 string jsonFilePath = twoDirectoriesUp + $@"\ПС{directoryInfo.Name.Substring(2)}";
-                Console.WriteLine(jsonFilePath);
+                //Console.WriteLine(jsonFilePath);
                 string jsonString = File.ReadAllText(jsonFilePath + $@"\{file}");
                 JObject jsonObject = JObject.Parse(jsonString);
-                int port = (int)jsonObject["Configuration"]["Port"];
+
+                //port = Convert.ToString(jsonObject["Configuration"]["Port"]);
+
+                if (jsonObject.TryGetValue("Configuration", out JToken configToken))
+                {
+                    JObject configObject = configToken as JObject;
+                    if (configObject != null && configObject.TryGetValue("Port", out JToken portToken))
+                    {
+                        port = portToken.ToString();
+                    }
+                }
+
                 return port;
             }
             catch (Exception)
             {
 
                 MessageBox.Show("Отсутствует порт", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return 0;
+                return "0000";
             }
             
 
@@ -323,7 +337,7 @@ namespace Auto_docker_compose
             {
                 if (comboBox3.SelectedIndex != -1)
                 {
-                    Console.WriteLine(comboBox3.SelectedIndex);
+                    //Console.WriteLine(comboBox3.SelectedIndex);
                     textBox3.Text = "node " + comboBox4.SelectedItem.ToString() + " " + comboBox3.SelectedItem.ToString();
                 }
                 
@@ -359,6 +373,127 @@ namespace Auto_docker_compose
                 }
             }
             
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // Очистка файла перед выполнением основной логики
+            try
+            {
+                File.WriteAllText(dc_path, string.Empty);
+                Console.WriteLine("Файл успешно очищен.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка при очистке файла: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            string lineToAdd = "services:";
+            File.AppendAllText(dc_path, lineToAdd + Environment.NewLine);
+            for (int i = 0; i < comboBox3.Items.Count; i++)
+            {
+                bool flag = true;
+                string ports = "0000";
+                List<string> strings = new List<string>();
+                string pattern1;
+                string buildtoappend = "";
+                string name = "";
+
+                if (File.Exists(dc_path))
+                {
+                    strings = get_values(dc_folder_path);
+                    ports = get_port(comboBox3.Items[i].ToString().Replace(" ", "")).ToString();
+
+                    for (int j = 0; j < comboBox2.Items.Count; j++)
+                    {
+                        pattern1 = $@".*{comboBox2.Items[j].ToString().ToLower()}.*";
+                        
+                        name = comboBox3.Items[i].ToString().ToLower().Replace("configuration", "").Replace(".json", "");
+                        string item = $@"{name}";
+
+                        Console.WriteLine(item + " - " + pattern1.Substring(0, pattern1.Length - 1));
+                        if (Regex.Match(item, pattern1).Success && !Regex.Match(item, @".*rt.*").Success)
+                        {
+                            //Console.WriteLine(item + " - " + pattern1);
+                            buildtoappend = $"\n            build: {comboBox2.Items[j]}/";
+                            flag = true;
+                            break;
+                        }
+                        else if (Regex.Match(item, @".*realtime.*").Success)
+                        {
+
+                            //Console.WriteLine(item +" - realtime");
+                            buildtoappend = $"\n            build: RT/";
+                            flag = true;
+                            break;
+                        }
+                        else if (Regex.Match(item, @".*gs.*").Success)
+                        {
+
+                            //Console.WriteLine(item + " - GS");
+                            buildtoappend = $"\n            build: GS/";
+                            flag = true;
+                            break;
+                        }
+                        else if (Regex.Match(item, @".*arch.*v1").Success)
+                        {
+                            //Console.WriteLine(item + " - ReadArch");
+                            buildtoappend = $"\n            build: ReadArch/";
+                            break;
+                        }
+                        else if (Regex.Match(item, @".*arch.*v2").Success)
+                        {
+                            //Console.WriteLine(item + " - ReadArchG");
+                            buildtoappend = $"\n            build: ReadArchG/";
+                            break;
+                        }
+                        else if (Regex.Match(item, @".*segment.*").Success)
+                        {
+                            //Console.WriteLine(item + " - " + pattern1);
+                            buildtoappend = $"\n            build: Segments/";
+                            flag = true;
+                            break;
+                        }
+                        else
+                        {
+                            flag = false;
+                            buildtoappend = "";
+                        }
+
+                    }
+                    Console.WriteLine(buildtoappend);
+                    if (flag)
+                    {
+                       
+                        if (ports != "0000")
+                        {
+                            File.AppendAllText(dc_path, $"\n        {name}:");
+                            File.AppendAllText(dc_path, $"\n            image: '{textBox2.Text}'");
+                            File.AppendAllText(dc_path, buildtoappend);
+
+                            File.AppendAllText(dc_path, $"\n            command: {textBox3.Text}");
+                            File.AppendAllText(dc_path, $"\n            ports:\n             - {ports}:{ports}");
+                            File.AppendAllText(dc_path, "\n            volumes:            ");
+                            foreach (var item in strings)
+                            {
+                                File.AppendAllText(dc_path, $"\n             - /home/sedatec/DockerConfig/ПС{directoryInfo.Name.Substring(2)}:{item}/Configuration");
+                            }
+                        }
+                    }
+                    
+                    
+
+                    
+
+                }
+                else
+                {
+                    MessageBox.Show("Файл не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+            textBox6.Text = File.ReadAllText(dc_path);
+            MessageBox.Show("Файл успешно дополнен");
         }
     }
 }
